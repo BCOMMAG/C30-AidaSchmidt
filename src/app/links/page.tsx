@@ -6,8 +6,6 @@ import {
   MapPin,
   ArrowUpRight,
   Globe,
-  HeartHandshake,
-  ShieldCheck,
 } from "lucide-react";
 import { WhatsAppIcon, InstagramIcon } from "@/components/SocialIcons";
 
@@ -111,7 +109,7 @@ export default function LinksPage() {
             </Link>
 
             {/* Foto de Perfil com acabamento luxuoso */}
-            <div className="relative w-28 h-28 xl:w-32 xl:h-32 rounded-full overflow-hidden border-2 border-[#C2A783] shadow-xl bg-[#2B2623]">
+            <div className="relative w-28 h-28 xl:w-32 xl:h-32 rounded-full overflow-hidden border-2 border-[#C2A783] ring-4 ring-[#C2A783]/20 shadow-xl bg-[#2B2623]">
               <Image
                 src="/Foto_perfil.jpg"
                 alt={CLINIC_INFO.doctorName}
@@ -163,6 +161,7 @@ export default function LinksPage() {
             {quickLinks.map((item) => {
               const Icon = item.icon;
               const isHighlight = item.highlight;
+              const isInternal = item.href.startsWith("/");
 
               const content = (
                 <div
@@ -237,55 +236,56 @@ export default function LinksPage() {
       </div>
 
       {/* ===================== VERSÃO MOBILE (100% Fit Sem Scroll — h-[100dvh] Travado) ===================== */}
-      <div className="lg:hidden relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full px-4 py-3 sm:py-4 overflow-hidden bg-gradient-to-b from-[#FFFCF8] via-[#F7F4EF] to-[#EFE9E0]">
+      <div className="lg:hidden relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full px-4 py-2.5 sm:py-3.5 overflow-hidden bg-gradient-to-b from-[#FFFCF8] via-[#F7F4EF] to-[#EFE9E0]">
         
-        {/* Topo Compacto: Logo + Foto + Identificação em Grid Enxuto */}
+        {/* Topo Mobile: Logo + Foto de Perfil Centralizada com Destaque + Identificação */}
         <div className="w-full flex flex-col items-center justify-center text-center pt-1 shrink-0">
+          {/* Logotipo da Clínica */}
           <Link
             href="/"
             className="block cursor-pointer focus:outline-none mb-1.5"
             aria-label={`Ir para a página inicial da ${CLINIC_INFO.name}`}
           >
-            <div className="relative h-11 sm:h-12 w-40 sm:w-44 transition-transform active:scale-98">
+            <div className="relative h-9 sm:h-10 w-32 sm:w-36 transition-transform active:scale-98">
               <Image
                 src="/logo_sem_fundo_usarnomodoclaro.png"
                 alt={CLINIC_INFO.name}
                 fill
                 priority
                 className="object-contain object-center"
-                sizes="180px"
+                sizes="150px"
               />
             </div>
           </Link>
 
-          {/* Avatar e Dados em linha compacta para economizar altura vertical */}
-          <div className="flex items-center gap-2.5 mb-2">
-            <div className="relative w-11 h-11 rounded-full overflow-hidden border border-[#C2A783] shadow-xs shrink-0 bg-[#FFFCF8]">
-              <Image
-                src="/Foto_perfil.jpg"
-                alt={CLINIC_INFO.doctorName}
-                fill
-                priority
-                className="object-cover object-top"
-                sizes="44px"
-              />
-            </div>
-            <div className="text-left">
-              <p className="font-heading text-base font-medium text-[#3B302B] leading-tight">
-                {CLINIC_INFO.doctorName}
-              </p>
-              <p className="text-[0.6875rem] font-body text-[#A28F80] font-semibold uppercase tracking-wider leading-tight">
-                {CLINIC_INFO.specialty} • {CLINIC_INFO.cro}
-              </p>
-            </div>
+          {/* Foto de Perfil Centralizada em Destaque (onde o usuário grifou em vermelho) */}
+          <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full overflow-hidden border-2 border-[#C2A783] ring-4 ring-[#C2A783]/20 shadow-md bg-[#FFFCF8] mb-1.5 shrink-0">
+            <Image
+              src="/Foto_perfil.jpg"
+              alt={CLINIC_INFO.doctorName}
+              fill
+              priority
+              className="object-cover object-top"
+              sizes="88px"
+            />
           </div>
 
-          {/* 3 Pills Compactas de Áreas em 1 Linha */}
+          {/* Nome e Especialidade Centralizados */}
+          <div className="space-y-0.5 mb-1.5">
+            <h1 className="font-heading text-lg sm:text-xl font-medium text-[#3B302B] leading-tight">
+              {CLINIC_INFO.doctorName}
+            </h1>
+            <p className="text-[0.625rem] sm:text-[0.6875rem] font-body text-[#A28F80] font-semibold uppercase tracking-wider leading-tight">
+              {CLINIC_INFO.specialty} • {CLINIC_INFO.cro}
+            </p>
+          </div>
+
+          {/* 3 Pills de Especialidades em Linha Equilibrada */}
           <div className="flex items-center justify-center gap-1.5 max-w-xs mx-auto">
-            {["Harmonização", "Toxina Botulínica", "Preenchimentos"].map((pill, i) => (
+            {["Harmonização Facial", "Botox", "Preenchimentos"].map((pill, i) => (
               <span
                 key={i}
-                className="text-[0.625rem] px-2 py-0.5 rounded-full bg-[#FFFCF8] text-[#3B302B] border border-[#E3DCD3] font-body font-medium shadow-2xs whitespace-nowrap"
+                className="text-[0.5625rem] sm:text-[0.625rem] px-2 py-0.5 rounded-full bg-[#FFFCF8] text-[#3B302B] border border-[#E3DCD3] font-body font-medium shadow-2xs whitespace-nowrap"
               >
                 {pill}
               </span>
@@ -294,7 +294,7 @@ export default function LinksPage() {
         </div>
 
         {/* 5 Botões de Links Principais — Ajustados com Precisão para não gerar scroll */}
-        <div className="w-full flex flex-col gap-2 max-w-sm mx-auto my-auto py-1">
+        <div className="w-full flex flex-col gap-1.5 sm:gap-2 max-w-sm mx-auto my-auto py-1">
           {quickLinks.map((item) => {
             const Icon = item.icon;
             const isHighlight = item.highlight;
@@ -362,7 +362,7 @@ export default function LinksPage() {
         </div>
 
         {/* Rodapé Mobile em 1 Linha Enxuta */}
-        <div className="text-center text-[0.625rem] font-body text-[#766D66] pb-1 pt-1 border-t border-[#E3DCD3]/70 shrink-0">
+        <div className="text-center text-[0.5625rem] sm:text-[0.625rem] font-body text-[#766D66] pb-1 pt-1 border-t border-[#E3DCD3]/70 shrink-0">
           <p>{CLINIC_INFO.name} • {CLINIC_INFO.addressShort} • {CLINIC_INFO.cro}</p>
         </div>
 
