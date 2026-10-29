@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+:root {
+  /* =========================================================================
+     PALETA OFICIAL CLÍNICA SCHMIDT — HARMONIZAÇÃO OROFACIAL
+     ========================================================================= */
+  --bg-primary: #F7F4EF;          /* Marfim suave (Fundo principal) */
+  --bg-surface: #FFFCF8;          /* Branco quente (Superfícies de cards e seções) */
+  --bg-secondary: #EFE9E0;        /* Camada bege suave para respiro e contraste */
+  --bg-surface-elevated: #FFFFFF; /* Branco puro de elevação sutil */
+  
+  --text-main: #3B302B;           /* Marrom profundo (Títulos e leitura de alta fidelidade) */
+  --text-secondary: #766D66;      /* Cinza quente (Subtítulos, legendas e textos de apoio) */
+  --text-muted: #958B83;          /* Tom de apoio atenuado */
+  
+  --color-taupe: #A28F80;         /* Taupe sofisticado */
+  --color-sage: #879184;          /* Verde-sálvia discreto */
+  --color-champagne: #C2A783;     /* Champagne de destaque */
+  --color-champagne-light: #EFE5D8;
+  --color-champagne-dark: #A68B67;
+  
+  --border-subtle: #E3DCD3;       /* Bege acinzentado para divisórias refinadas */
+  --border-delicate: rgba(59, 48, 43, 0.08);
+
+  /* Elementos escuros pontuais (Rodapé e Destaques especiais) */
+  --bg-dark: #211E1C;             /* Marrom quase preto */
+  --bg-dark-surface: #2B2623;     /* Marrom carvão */
+  --text-dark-contrast: #F4EEE7;  /* Marfim sobre escuro */
+  --border-dark-subtle: rgba(194, 167, 131, 0.2);
+
+  /* WhatsApp oficial */
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #20BA59;
+}
+
+html {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+body {
+  max-width: 100%;
+  overflow-x: clip;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tipografia Editorial de Luxo: Cormorant Garamond para Títulos */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading), "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.015em;
+}
+
+/* Tipografia de Apoio e Interface: Manrope */
+.font-body {
+  font-family: var(--font-body), "Manrope", sans-serif;
+}
+
+/* Bordas editoriais delicadas */
+.editorial-border {
+  border: 1px solid var(--border-subtle);
+}
+
+.editorial-border-b {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.editorial-border-t {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Marcadores sutis da marca */
+.bullet-indicator {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: var(--color-champagne);
+}
+
+/* Botões Pílula Refinados */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.01em;
+}
+
+/* Efeito Hover Lift Suave */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Links Editoriais com sublinhado animado sutil */
+.editorial-link {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.editorial-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-champagne);
+  transition: width 0.3s ease;
+}
+
+.editorial-link:hover::after {
+  width: 100%;
+}
+
+/* Animações Keyframes para transições suaves */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ocultar barra de rolagem quando necessário */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
