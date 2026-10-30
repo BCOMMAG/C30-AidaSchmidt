@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState, useMemo, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { PROCEDURES, Procedure } from "@/data/procedures";
 import { CLINIC_INFO } from "@/lib/data";
-import { Sparkles, ArrowUpRight, CheckCircle2, Info, X, ShieldCheck, HeartHandshake } from "lucide-react";
+import { Sparkles, ArrowUpRight, CheckCircle2, Info, X, ShieldCheck, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import { WhatsAppIcon } from "@/components/SocialIcons";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap } from "gsap";
@@ -14,51 +14,88 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-const CATEGORY_TABS = [
-  { id: "todos", label: "Todos os Tratamentos" },
-  { id: "expressao", label: "Linhas & Expressão" },
-  { id: "volume", label: "Volume & Contorno" },
-  { id: "colageno", label: "Colágeno & Firmeza" },
-  { id: "global", label: "Avaliação Global" },
-];
-
 export function ProceduresSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState("todos");
+  const carouselContainerRef = useRef<HTMLDivElement>(null);
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPausedByUser, setIsPausedByUser] = useState(false);
   const [selectedProcedure, setSelectedProcedure] = useState<Procedure | null>(null);
 
-  const filteredProcedures = useMemo(() => {
-    if (activeTab === "todos") return PROCEDURES;
-    if (activeTab === "expressao") {
-      return PROCEDURES.filter((p) =>
-        ["toxina-botulinica", "rejuvenescimento-facial", "harmonizacao-facial"].includes(p.id)
-      );
+  // 1. Rotação em looping lateral contínuo (autoplay a cada 3.5 segundos)
+  useEffect(() => {
+    if (isPausedByUser) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % PROCEDURES.length);
+    }, 3600);
+
+    return () => clearInterval(interval);
+  }, [isPausedByUser]);
+
+  // 2. Rolagem suave do carrossel para o procedimento ativo
+  useEffect(() => {
+    const container = carouselContainerRef.current;
+    if (!container) return;
+
+    const card = container.children[activeIndex] as HTMLElement | undefined;
+    if (card) {
+      const scrollLeft =
+        card.offsetLeft - (container.clientWidth / 2 - card.clientWidth / 2);
+      container.scrollTo({
+        left: Math.max(0, scrollLeft),
+        behavior: "smooth",
+      });
     }
-    if (activeTab === "volume") {
-      return PROCEDURES.filter((p) =>
-        ["preenchimento-acido-hialuronico", "preenchimento-labial", "fios-sustentacao"].includes(p.id)
-      );
+
+    // Também rola suavemente o menu superior para manter o item selecionado visível
+    const menuContainer = menuContainerRef.current;
+    if (menuContainer) {
+      const menuItem = menuContainer.children[activeIndex] as HTMLElement | undefined;
+      if (menuItem) {
+        const menuScrollLeft =
+          menuItem.offsetLeft - (menuContainer.clientWidth / 2 - menuItem.clientWidth / 2);
+        menuContainer.scrollTo({
+          left: Math.max(0, menuScrollLeft),
+          behavior: "smooth",
+        });
+      }
     }
-    if (activeTab === "colageno") {
-      return PROCEDURES.filter((p) =>
-        ["bioestimuladores-colageno", "fios-sustentacao", "rejuvenescimento-facial"].includes(p.id)
-      );
-    }
-    if (activeTab === "global") {
-      return PROCEDURES.filter((p) =>
-        ["harmonizacao-facial", "outros-procedimentos-hof"].includes(p.id)
-      );
-    }
-    return PROCEDURES;
-  }, [activeTab]);
+  }, [activeIndex]);
+
+  // 3. Regra estrita de pausa:
+  // Se o usuário interagiu com o menu, a pausa só é desfeita caso ele role e a seção SAIA COMPLETAMENTE da viewport.
+  // Enquanto a seção estiver visível na tela, mesmo com scroll, o looping NÃO volta a acontecer!
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Se a seção saiu 100% da viewport, desarma a pausa do usuário para a próxima visita
+        if (!entry.isIntersecting) {
+          setIsPausedByUser(false);
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleSelectProcedure = (index: number) => {
+    setActiveIndex(index);
+    setIsPausedByUser(true); // Pausa permanente enquanto estiver na seção
+  };
 
   const closeModal = useCallback(() => {
     setSelectedProcedure(null);
   }, []);
 
-  // Bloquear scroll do body quando o modal de detalhes estiver aberto
+  // Bloquear scroll do body quando o modal estiver aberto
   useEffect(() => {
     if (!selectedProcedure) return;
     const originalOverflow = document.body.style.overflow;
@@ -94,42 +131,25 @@ export function ProceduresSection() {
           }
         );
       }
-
-      if (cardsRef.current) {
-        const cards = cardsRef.current.querySelectorAll(".procedure-card");
-        if (cards.length > 0) {
-          gsap.fromTo(
-            cards,
-            { y: 25, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.6,
-              stagger: 0.08,
-              ease: "power2.out",
-            }
-          );
-        }
-      }
     },
-    { scope: sectionRef, dependencies: [activeTab] }
+    { scope: sectionRef }
   );
 
   return (
     <section
       id="procedimentos"
       ref={sectionRef}
-      className="py-20 sm:py-28 bg-[#F7F4EF] editorial-border-b relative overflow-hidden"
+      className="py-16 sm:py-24 bg-[#F7F4EF] editorial-border-b relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Cabeçalho da Seção */}
         <div
           ref={headerRef}
-          className="flex flex-col md:flex-row md:items-end justify-between pb-8 border-b border-[#E3DCD3] gap-6 mb-8 sm:mb-12 will-change-transform"
+          className="flex flex-col md:flex-row md:items-end justify-between pb-6 border-b border-[#E3DCD3] gap-4 mb-6 sm:mb-8 will-change-transform"
         >
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
               <span className="bullet-indicator" />
               <span className="text-xs uppercase tracking-widest text-[#A28F80] font-body font-semibold">
                 Áreas de Atuação &amp; Cuidados
@@ -139,72 +159,138 @@ export function ProceduresSection() {
               Procedimentos em Harmonização Orofacial
             </h2>
           </div>
-          <p className="font-body text-sm sm:text-base text-[#766D66] max-w-md leading-relaxed">
-            Abordagens planejadas com critério técnico e estética refinada para realçar traços e restabelecer o equilíbrio facial.
+          <p className="font-body text-xs sm:text-sm text-[#766D66] max-w-md leading-relaxed">
+            Selecione no menu abaixo ou acompanhe a apresentação contínua dos tratamentos realizados pela Dra. Aïda Schmidt.
           </p>
         </div>
 
-        {/* Abas Interativas de Filtro Rápido */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-8 sm:mb-10">
-          {CATEGORY_TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-body font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer shrink-0 ${
-                  isActive
-                    ? "bg-[#3B302B] text-[#FFFCF8] shadow-sm scale-102"
-                    : "bg-[#FFFCF8] text-[#5A514B] border border-[#E3DCD3] hover:border-[#C2A783] hover:text-[#3B302B]"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+        {/* Menu Superior Interativo de Procedimentos */}
+        <div className="relative mb-6">
+          <div
+            ref={menuContainerRef}
+            className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 scroll-smooth"
+          >
+            {PROCEDURES.map((proc, idx) => {
+              const isSelected = activeIndex === idx;
+              return (
+                <button
+                  key={proc.id}
+                  type="button"
+                  onClick={() => handleSelectProcedure(idx)}
+                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-body font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer shrink-0 ${
+                    isSelected
+                      ? "bg-[#3B302B] text-[#FFFCF8] shadow-sm scale-102"
+                      : "bg-[#FFFCF8] text-[#5A514B] border border-[#E3DCD3] hover:border-[#C2A783] hover:text-[#3B302B]"
+                  }`}
+                >
+                  <span>{proc.name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Grid de Procedimentos */}
+        {/* Controles e Indicador de Looping */}
+        <div className="flex items-center justify-between mb-3 text-xs text-[#766D66] px-1">
+          <div className="flex items-center gap-2">
+            <span className="font-body text-[0.6875rem] uppercase tracking-wider text-[#A28F80] font-semibold">
+              Tratamento {activeIndex + 1} de {PROCEDURES.length}
+            </span>
+            {isPausedByUser ? (
+              <span className="inline-flex items-center gap-1 text-[0.6875rem] text-[#A28F80] bg-[#FFFCF8] px-2 py-0.5 rounded-full border border-[#E3DCD3]">
+                <Pause className="w-2.5 h-2.5 text-[#C2A783]" />
+                Pausado para leitura
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-[0.6875rem] text-[#25D366] bg-[#FFFCF8] px-2 py-0.5 rounded-full border border-[#E3DCD3]">
+                <Play className="w-2.5 h-2.5" />
+                Looping contínuo
+              </span>
+            )}
+          </div>
+
+          {/* Botões de Navegação Manual */}
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                setIsPausedByUser(true);
+                setActiveIndex((prev) => (prev - 1 + PROCEDURES.length) % PROCEDURES.length);
+              }}
+              className="p-1.5 sm:p-2 rounded-full bg-[#FFFCF8] border border-[#E3DCD3] text-[#3B302B] hover:border-[#C2A783] transition-colors cursor-pointer"
+              aria-label="Procedimento anterior"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsPausedByUser(true);
+                setActiveIndex((prev) => (prev + 1) % PROCEDURES.length);
+              }}
+              className="p-1.5 sm:p-2 rounded-full bg-[#FFFCF8] border border-[#E3DCD3] text-[#3B302B] hover:border-[#C2A783] transition-colors cursor-pointer"
+              aria-label="Próximo procedimento"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Carrossel Horizontal em Looping Lateral */}
         <div
-          ref={cardsRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6 mb-12 will-change-transform"
+          ref={carouselContainerRef}
+          className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-2 mb-8"
         >
-          {filteredProcedures.map((proc) => {
+          {PROCEDURES.map((proc, idx) => {
+            const isSelected = activeIndex === idx;
             const encodedMsg = encodeURIComponent(proc.whatsappMessage);
             const waUrl = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodedMsg}`;
 
             return (
               <div
                 key={proc.id}
-                className="procedure-card rounded-2xl bg-[#FFFCF8] border border-[#E3DCD3] p-6 flex flex-col justify-between hover:shadow-[0_12px_32px_rgba(59,48,43,0.08)] hover:border-[#C2A783] transition-all duration-300 group hover-lift relative"
+                onClick={() => handleSelectProcedure(idx)}
+                className={`w-[290px] sm:w-[340px] shrink-0 rounded-2xl bg-[#FFFCF8] border transition-all duration-300 p-5 sm:p-6 flex flex-col justify-between cursor-pointer group ${
+                  isSelected
+                    ? "border-[#C2A783] shadow-[0_12px_32px_rgba(59,48,43,0.1)] ring-1 ring-[#C2A783]/30 scale-[1.01]"
+                    : "border-[#E3DCD3] opacity-80 hover:opacity-100 hover:border-[#C2A783]/70 shadow-2xs"
+                }`}
               >
                 <div>
                   {/* Topo do Card: Badge da Categoria */}
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-[0.6875rem] font-body font-semibold uppercase tracking-wider text-[#A28F80] bg-[#F7F4EF] px-2.5 py-1 rounded-full border border-[#E3DCD3]">
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[0.6875rem] font-body font-semibold uppercase tracking-wider text-[#A28F80] bg-[#F7F4EF] px-2.5 py-0.5 rounded-full border border-[#E3DCD3]">
                       {proc.category}
                     </span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#C2A783] opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                    <Sparkles
+                      className={`w-3.5 h-3.5 transition-all ${
+                        isSelected
+                          ? "text-[#C2A783] scale-110"
+                          : "text-[#A28F80] opacity-50 group-hover:opacity-100"
+                      }`}
+                    />
                   </div>
 
                   {/* Nome do Procedimento */}
-                  <h3 className="font-heading text-xl font-medium text-[#3B302B] mb-2.5 leading-snug group-hover:text-[#A28F80] transition-colors">
+                  <h3 className="font-heading text-lg sm:text-xl font-medium text-[#3B302B] mb-2 leading-snug group-hover:text-[#A28F80] transition-colors">
                     {proc.name}
                   </h3>
 
                   {/* Resumo Claro */}
-                  <p className="font-body text-xs sm:text-sm text-[#766D66] leading-relaxed mb-4 line-clamp-3">
+                  <p className="font-body text-xs sm:text-sm text-[#766D66] leading-relaxed line-clamp-3 mb-3">
                     {proc.summary}
                   </p>
                 </div>
 
                 {/* Base do Card: Detalhes & Ação WhatsApp */}
-                <div className="pt-4 border-t border-[#E3DCD3]/60 space-y-2.5 mt-2">
-                  {/* Botão para abrir o Modal de Detalhes */}
+                <div className="pt-3 border-t border-[#E3DCD3]/60 space-y-2 mt-auto">
+                  {/* Botão para abrir o Quick View Modal */}
                   <button
                     type="button"
-                    onClick={() => setSelectedProcedure(proc)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProcedure(proc);
+                    }}
                     className="w-full py-1.5 px-3 rounded-xl bg-[#F7F4EF] hover:bg-[#EFE9E0] text-[0.6875rem] font-body font-semibold text-[#5A514B] hover:text-[#3B302B] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Info className="w-3.5 h-3.5 text-[#C2A783]" />
@@ -216,7 +302,8 @@ export function ProceduresSection() {
                     href={waUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between text-xs font-body font-semibold text-[#3B302B] group-hover:text-[#C2A783] transition-colors pt-1"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center justify-between text-xs font-body font-semibold text-[#3B302B] group-hover:text-[#C2A783] transition-colors pt-0.5"
                   >
                     <span className="flex items-center gap-1.5">
                       <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
@@ -230,17 +317,12 @@ export function ProceduresSection() {
           })}
         </div>
 
-        {/* Nota Ética e de Responsabilidade Odontológica/Médica */}
-        <div className="p-5 sm:p-6 rounded-2xl bg-[#EFE9E0]/80 border border-[#E3DCD3] max-w-3xl mx-auto flex items-start gap-3.5">
-          <CheckCircle2 className="w-5 h-5 text-[#879184] mt-0.5 shrink-0" />
-          <div className="space-y-1">
-            <h4 className="font-body text-xs sm:text-sm font-semibold text-[#3B302B]">
-              Compromisso Ético e Avaliação Clínica
-            </h4>
-            <p className="font-body text-xs text-[#766D66] leading-relaxed">
-              A indicação de qualquer procedimento em Harmonização Orofacial depende de uma avaliação clínica presencial e minuciosa. Cada anatomia facial é única, e os objetivos, cuidados preventivos e possíveis contraindicações são sempre esclarecidos com total transparência junto à profissional.
-            </p>
-          </div>
+        {/* Nota Ética Discreta */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#EFE9E0]/80 border border-[#E3DCD3] max-w-2xl mx-auto flex items-start gap-3">
+          <CheckCircle2 className="w-4 h-4 text-[#879184] mt-0.5 shrink-0" />
+          <p className="font-body text-xs text-[#766D66] leading-relaxed">
+            <strong className="text-[#3B302B] font-semibold">Avaliação Presencial:</strong> A indicação e o planejamento de cada tratamento são definidos em consulta presencial com a Dra. Aïda Schmidt, respeitando a sua individualidade anatômica.
+          </p>
         </div>
 
       </div>
@@ -295,7 +377,7 @@ export function ProceduresSection() {
             </div>
 
             {/* Ações do Modal */}
-            <div className="pt-2 flex flex-col sm:flex-row gap-3">
+            <div className="pt-2">
               <MagneticButton strength={0.2} className="w-full">
                 <a
                   href={`https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(

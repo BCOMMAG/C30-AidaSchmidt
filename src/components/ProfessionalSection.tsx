@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { CLINIC_INFO } from "@/lib/data";
-import { Sparkles, Award, HeartHandshake, ShieldCheck } from "lucide-react";
+import { Sparkles, Award, HeartHandshake, ShieldCheck, ChevronDown } from "lucide-react";
 import { WhatsAppIcon } from "@/components/SocialIcons";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap } from "gsap";
@@ -21,6 +21,7 @@ export function ProfessionalSection() {
   const pillTopRef = useRef<HTMLDivElement>(null);
   const pillBottomRef = useRef<HTMLDivElement>(null);
   const signaturePathRef = useRef<SVGPathElement>(null);
+  const [isExpandedMobile, setIsExpandedMobile] = useState(false);
 
   useGSAP(
     () => {
@@ -115,14 +116,14 @@ export function ProfessionalSection() {
     <section
       id="profissional"
       ref={sectionRef}
-      className="py-20 sm:py-28 bg-[#FFFCF8] editorial-border-b relative overflow-hidden"
+      className="py-16 sm:py-28 bg-[#FFFCF8] editorial-border-b relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Coluna da Imagem Oficial com Pílulas Flutuantes em Parallax (5 colunas) */}
           <div ref={photoContainerRef} className="lg:col-span-5 flex justify-center will-change-transform relative">
-            <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
+            <div className="relative w-full max-w-[340px] sm:max-w-[420px]">
               
               {/* Pílula Flutuante 1 (Superior Esquerda) */}
               <div
@@ -150,14 +151,14 @@ export function ProfessionalSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#211E1C]/85 via-transparent to-transparent pointer-events-none" />
                 
                 {/* Card de Identificação no Rodapé da Imagem */}
-                <div className="absolute bottom-6 left-6 right-6 text-[#F4EEE7] z-10 pointer-events-none">
+                <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 text-[#F4EEE7] z-10 pointer-events-none">
                   <span className="text-[0.6875rem] uppercase tracking-widest text-[#C2A783] font-body font-semibold block mb-1">
                     Profissional Responsável
                   </span>
-                  <p className="font-heading text-2xl font-normal leading-tight">
+                  <p className="font-heading text-xl sm:text-2xl font-normal leading-tight">
                     {CLINIC_INFO.doctorName}
                   </p>
-                  <p className="text-xs text-[#E3DCD3] font-body mt-1">
+                  <p className="text-xs text-[#E3DCD3] font-body mt-0.5 sm:mt-1">
                     {CLINIC_INFO.specialty} • {CLINIC_INFO.cro}
                   </p>
                 </div>
@@ -178,9 +179,9 @@ export function ProfessionalSection() {
             </div>
           </div>
 
-          {/* Coluna de Apresentação Textual com Assinatura SVG (7 colunas) */}
-          <div ref={contentRef} className="lg:col-span-7 space-y-6 will-change-transform">
-            <div className="space-y-3">
+          {/* Coluna de Apresentação Textual (7 colunas) */}
+          <div ref={contentRef} className="lg:col-span-7 space-y-5 sm:space-y-6 will-change-transform">
+            <div className="space-y-2.5 sm:space-y-3">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E3DCD3] bg-[#F7F4EF] text-xs font-body font-semibold text-[#A28F80]">
                 <Award className="w-3.5 h-3.5 text-[#C2A783]" />
                 <span>{CLINIC_INFO.specialty} • {CLINIC_INFO.cro}</span>
@@ -188,59 +189,68 @@ export function ProfessionalSection() {
               <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-[#3B302B] font-normal leading-[1.12]">
                 Dra. Aïda Schmidt
               </h2>
-              <p className="font-heading italic text-xl sm:text-2xl text-[#A28F80]">
+              <p className="font-heading italic text-lg sm:text-2xl text-[#A28F80] leading-snug">
                 Harmonia orofacial com respeito à sua identidade e às suas proporções.
               </p>
             </div>
 
-            <div className="space-y-4 font-body text-sm sm:text-base text-[#766D66] leading-relaxed">
-              <p>
-                A Harmonização Orofacial é um campo que exige profundo conhecimento anatômico, técnica precisa e sensibilidade estética apurada. Na Clínica Schmidt, a atuação da <strong className="text-[#3B302B] font-semibold">Dra. Aïda Schmidt</strong> é guiada pelo compromisso com resultados elegantes e naturais.
-              </p>
-              <p>
-                Cada procedimento é planejado a partir de uma conversa franca e detalhada, identificando expectativas e recomendando unicamente abordagens que façam sentido para as proporções reais da sua face.
-              </p>
+            {/* Botão de Compactação Mobile: Saber mais sobre a Dra. Aïda Schmidt */}
+            <div className="lg:hidden pt-1">
+              <button
+                type="button"
+                onClick={() => setIsExpandedMobile(!isExpandedMobile)}
+                aria-expanded={isExpandedMobile}
+                className="w-full py-3 px-4 rounded-2xl bg-[#F7F4EF] hover:bg-[#EFE9E0] border border-[#E3DCD3] text-xs font-body font-semibold text-[#3B302B] flex items-center justify-between transition-colors shadow-2xs active:scale-[0.99] cursor-pointer"
+              >
+                <span className="font-medium">
+                  {isExpandedMobile
+                    ? "Ocultar apresentação completa"
+                    : "Saber mais sobre a Dra. Aïda Schmidt"}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-[#A28F80] transition-transform duration-300 ${
+                    isExpandedMobile ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
             </div>
 
-            {/* Destaques em Grid de Cards */}
-            <div className="grid sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-[#F7F4EF] border border-[#E3DCD3] space-y-1.5">
-                <div className="flex items-center gap-2 font-body text-xs font-semibold text-[#3B302B]">
-                  <Sparkles className="w-4 h-4 text-[#C2A783]" />
-                  <span>Planejamento Customizado</span>
-                </div>
-                <p className="text-xs text-[#766D66]">
-                  Cada paciente recebe uma análise individualizada e detalhada de suas proporções faciais.
+            {/* Conteúdo Detalhado (Sempre visível no Desktop, colapsável no Mobile) */}
+            <div className={`${isExpandedMobile ? "block" : "hidden"} lg:block space-y-5 sm:space-y-6 animate-fade-in`}>
+              <div className="space-y-4 font-body text-sm sm:text-base text-[#766D66] leading-relaxed">
+                <p>
+                  A Harmonização Orofacial é um campo que exige profundo conhecimento anatômico, técnica precisa e sensibilidade estética apurada. Na Clínica Schmidt, a atuação da <strong className="text-[#3B302B] font-semibold">Dra. Aïda Schmidt</strong> é guiada pelo compromisso com resultados elegantes e naturais.
+                </p>
+                <p>
+                  Cada procedimento é planejado a partir de uma conversa franca e detalhada, identificando expectativas e recomendando unicamente abordagens que façam sentido para as proporções reais da sua face.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F7F4EF] border border-[#E3DCD3] space-y-1.5">
-                <div className="flex items-center gap-2 font-body text-xs font-semibold text-[#3B302B]">
-                  <HeartHandshake className="w-4 h-4 text-[#879184]" />
-                  <span>Diálogo Transparente</span>
+              {/* Destaques em Grid de Cards */}
+              <div className="grid sm:grid-cols-2 gap-3.5 sm:gap-4 pt-1">
+                <div className="p-4 rounded-xl bg-[#F7F4EF] border border-[#E3DCD3] space-y-1.5">
+                  <div className="flex items-center gap-2 font-body text-xs font-semibold text-[#3B302B]">
+                    <Sparkles className="w-4 h-4 text-[#C2A783]" />
+                    <span>Planejamento Customizado</span>
+                  </div>
+                  <p className="text-xs text-[#766D66] leading-relaxed">
+                    Cada paciente recebe uma análise individualizada e detalhada de suas proporções faciais.
+                  </p>
                 </div>
-                <p className="text-xs text-[#766D66]">
-                  Esclarecimento de benefícios, cuidados e indicações com total responsabilidade ética.
-                </p>
+
+                <div className="p-4 rounded-xl bg-[#F7F4EF] border border-[#E3DCD3] space-y-1.5">
+                  <div className="flex items-center gap-2 font-body text-xs font-semibold text-[#3B302B]">
+                    <HeartHandshake className="w-4 h-4 text-[#879184]" />
+                    <span>Diálogo Transparente</span>
+                  </div>
+                  <p className="text-xs text-[#766D66] leading-relaxed">
+                    Esclarecimento de benefícios, cuidados e indicações com total responsabilidade ética.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Assinatura SVG Editorial & Botão de Contato Direto */}
-            <div className="pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-[#E3DCD3]/70">
-              <MagneticButton strength={0.25}>
-                <a
-                  href={CLINIC_INFO.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-pill bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3 sm:py-3.5 px-6 sm:px-8 text-xs sm:text-sm font-semibold tracking-normal shadow-sm hover-lift inline-flex items-center cursor-pointer"
-                >
-                  <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-                  <span>Conversar com a Dra. Aïda</span>
-                </a>
-              </MagneticButton>
-
-              {/* Traçado Vetorial da Assinatura Editorial */}
-              <div className="flex items-center gap-2 opacity-80" aria-label="Assinatura Dra. Aïda Schmidt">
+              {/* Traçado Vetorial da Assinatura Editorial (visível no desktop ou quando expandido no mobile) */}
+              <div className="hidden sm:flex items-center gap-2 opacity-80 pt-2" aria-label="Assinatura Dra. Aïda Schmidt">
                 <svg
                   width="120"
                   height="36"
@@ -260,6 +270,21 @@ export function ProfessionalSection() {
                 </svg>
                 <span className="font-heading italic text-xs text-[#A28F80]">Dra. Aïda Schmidt</span>
               </div>
+            </div>
+
+            {/* Botão de Contato Direto (Sempre acessível de imediato em qualquer tela) */}
+            <div className="pt-2 sm:pt-3 border-t border-[#E3DCD3]/70">
+              <MagneticButton strength={0.25} className="w-full sm:w-auto">
+                <a
+                  href={CLINIC_INFO.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-pill w-full sm:w-auto bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3.5 sm:py-3.5 px-6 sm:px-8 text-xs sm:text-sm font-semibold tracking-normal shadow-sm hover-lift inline-flex items-center justify-center cursor-pointer"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                  <span>Conversar com a Dra. Aïda</span>
+                </a>
+              </MagneticButton>
             </div>
           </div>
 
