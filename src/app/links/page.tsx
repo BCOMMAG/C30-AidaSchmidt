@@ -235,39 +235,39 @@ export default function LinksPage() {
 
       </div>
 
-      {/* ===================== VERSÃO MOBILE (100% Fit Sem Scroll — Logo no Fundo + Foto Maior) ===================== */}
-      <div className="lg:hidden relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full px-4 py-3 sm:py-4 overflow-hidden bg-gradient-to-b from-[#FFFCF8] via-[#F7F4EF] to-[#EFE9E0]">
+      {/* ===================== VERSÃO MOBILE (100% Fit Sem Scroll — Logo no Fundo Visível + Perfil e Botões Reajustados) ===================== */}
+      <div className="lg:hidden relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full px-4 pt-3 pb-2 sm:pt-4 sm:pb-3 overflow-hidden bg-gradient-to-b from-[#FFFCF8] via-[#F7F4EF] to-[#EFE9E0]">
         
-        {/* Marca d'água da Logo no Fundo Superior */}
-        <div className="absolute top-2 sm:top-4 inset-x-0 flex items-center justify-center pointer-events-none z-0">
-          <div className="relative w-72 sm:w-80 h-36 sm:h-40 opacity-[0.08] select-none">
+        {/* Marca d'água da Logo no Fundo Superior - Ampla e Bem Visível no Topo */}
+        <div className="absolute top-1 sm:top-2 inset-x-0 flex items-center justify-center pointer-events-none z-0">
+          <div className="relative w-72 sm:w-80 h-28 sm:h-32 opacity-[0.25] select-none">
             <Image
               src="/logo_sem_fundo_usarnomodoclaro.png"
               alt=""
               fill
               priority
-              className="object-contain object-center"
+              className="object-contain object-top"
               sizes="320px"
             />
           </div>
         </div>
 
-        {/* Topo Mobile: Foto de Perfil Maior em Destaque + Identificação */}
-        <div className="relative z-10 w-full flex flex-col items-center justify-center text-center pt-2 shrink-0">
-          {/* Foto de Perfil da Dra. Aïda — Maior e com Presença Marcante */}
+        {/* Topo Mobile: Perfil Reajustado e Descido, deixando a logo no topo limpa e destacada */}
+        <div className="relative z-10 w-full flex flex-col items-center justify-center text-center pt-14 sm:pt-16 shrink-0">
+          {/* Foto de Perfil da Dra. Aïda — Centralizada, Bonita e com Presença */}
           <Link
             href="/"
-            className="block cursor-pointer focus:outline-none active:scale-98 transition-transform"
+            className="block cursor-pointer focus:outline-none active:scale-98 transition-transform mb-2"
             aria-label={`Ir para a página inicial da ${CLINIC_INFO.name}`}
           >
-            <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-[#C2A783] ring-4 ring-[#C2A783]/25 shadow-lg bg-[#FFFCF8] mb-2 shrink-0">
+            <div className="relative w-24 h-24 sm:w-26 sm:h-26 rounded-full overflow-hidden border-2 border-[#C2A783] ring-4 ring-[#C2A783]/25 shadow-lg bg-[#FFFCF8] shrink-0">
               <Image
                 src="/Foto_perfil.jpg"
                 alt={CLINIC_INFO.doctorName}
                 fill
                 priority
                 className="object-cover object-top"
-                sizes="128px"
+                sizes="110px"
               />
             </div>
           </Link>
@@ -287,7 +287,7 @@ export default function LinksPage() {
             {["Harmonização Facial", "Botox", "Preenchimentos"].map((pill, i) => (
               <span
                 key={i}
-                className="text-[0.625rem] px-2.5 py-0.5 rounded-full bg-[#FFFCF8]/90 backdrop-blur-xs text-[#3B302B] border border-[#E3DCD3] font-body font-medium shadow-2xs whitespace-nowrap"
+                className="text-[0.625rem] px-2.5 py-0.5 rounded-full bg-[#FFFCF8]/95 backdrop-blur-xs text-[#3B302B] border border-[#E3DCD3] font-body font-medium shadow-2xs whitespace-nowrap"
               >
                 {pill}
               </span>
@@ -295,42 +295,42 @@ export default function LinksPage() {
           </div>
         </div>
 
-        {/* 5 Botões de Links Principais — Ajustados com Precisão para não gerar scroll */}
-        <div className="relative z-10 w-full flex flex-col gap-1.5 sm:gap-2 max-w-sm mx-auto my-auto py-1">
+        {/* 5 Botões de Links Principais — Distribuídos com Conforto Tátil, Preenchendo o Espaço */}
+        <div className="relative z-10 w-full flex flex-col gap-2.5 sm:gap-3 max-w-sm mx-auto my-auto py-1">
           {quickLinks.map((item) => {
             const Icon = item.icon;
             const isHighlight = item.highlight;
             const isInternal = item.href.startsWith("/");
 
-            const buttonClasses = `w-full flex items-center justify-between px-3.5 py-2.5 sm:py-2.5 rounded-xl border transition-all duration-200 active:scale-[0.98] ${
+            const buttonClasses = `w-full flex items-center justify-between px-4 py-3 sm:py-3.5 rounded-2xl border transition-all duration-200 active:scale-[0.98] ${
               isHighlight
-                ? "bg-[#3B302B] text-[#FFFCF8] border-[#3B302B] shadow-sm"
-                : "bg-[#FFFCF8]/95 backdrop-blur-xs border-[#E3DCD3] text-[#3B302B] shadow-2xs"
+                ? "bg-[#3B302B] text-[#FFFCF8] border-[#3B302B] shadow-[0_6px_18px_rgba(59,48,43,0.16)]"
+                : "bg-[#FFFCF8]/95 backdrop-blur-xs border-[#E3DCD3] text-[#3B302B] shadow-2xs hover:border-[#C2A783]"
             }`;
 
             const content = (
               <>
-                <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex items-center gap-3 min-w-0">
                   <div
-                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${
                       isHighlight
                         ? "bg-[#25D366]/20 text-[#25D366]"
                         : "bg-[#F7F4EF] text-[#C2A783]"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5" />
                   </div>
                   <div className="min-w-0 text-left">
                     <p
-                      className={`font-body text-xs font-semibold leading-tight truncate ${
+                      className={`font-body text-xs sm:text-sm font-semibold leading-tight truncate ${
                         isHighlight ? "text-[#FFFCF8]" : "text-[#3B302B]"
                       }`}
                     >
                       {item.title}
                     </p>
                     <p
-                      className={`font-body text-[0.625rem] leading-tight truncate mt-0.5 ${
-                        isHighlight ? "text-[#E3DCD3]/80" : "text-[#766D66]"
+                      className={`font-body text-[0.6875rem] leading-tight truncate mt-0.5 ${
+                        isHighlight ? "text-[#E3DCD3]/85" : "text-[#766D66]"
                       }`}
                     >
                       {item.subtitle}
@@ -338,7 +338,7 @@ export default function LinksPage() {
                   </div>
                 </div>
                 <ArrowUpRight
-                  className={`w-3.5 h-3.5 shrink-0 ${
+                  className={`w-4 h-4 shrink-0 transition-transform ${
                     isHighlight ? "text-[#C2A783]" : "text-[#A28F80]"
                   }`}
                 />
@@ -364,7 +364,7 @@ export default function LinksPage() {
         </div>
 
         {/* Rodapé Mobile em 1 Linha Enxuta */}
-        <div className="relative z-10 text-center text-[0.5625rem] sm:text-[0.625rem] font-body text-[#766D66] pb-1 pt-1 border-t border-[#E3DCD3]/70 shrink-0">
+        <div className="relative z-10 text-center text-[0.625rem] font-body text-[#766D66] pt-2 pb-1 border-t border-[#E3DCD3]/70 shrink-0">
           <p>{CLINIC_INFO.name} • {CLINIC_INFO.addressShort} • {CLINIC_INFO.cro}</p>
         </div>
 
