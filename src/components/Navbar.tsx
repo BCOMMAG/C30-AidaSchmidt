@@ -45,9 +45,9 @@ export function Navbar() {
 
   const navLinks = [
     { label: "Início", href: "#inicio" },
-    { label: "A Clínica", href: "#clinica" },
-    { label: "Procedimentos", href: "#procedimentos" },
     { label: "Dra. Aïda", href: "#profissional" },
+    { label: "Procedimentos", href: "#procedimentos" },
+    { label: "A Clínica", href: "#clinica" },
     { label: "Diferenciais", href: "#diferenciais" },
     { label: "Dúvidas", href: "#duvidas" },
     { label: "Contato", href: "#contato" },
@@ -59,7 +59,7 @@ export function Navbar() {
         className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-300 ${
           isScrolled
             ? "bg-[#F7F4EF]/95 backdrop-blur-md shadow-[0_2px_18px_rgba(59,48,43,0.06)] border-b border-[#E3DCD3]/70 py-2 sm:py-2.5"
-            : "bg-transparent py-3 sm:py-5"
+            : "bg-[#F7F4EF]/85 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none border-b border-[#E3DCD3]/50 lg:border-transparent py-2.5 sm:py-5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

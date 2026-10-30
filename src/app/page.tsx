@@ -15,9 +15,9 @@ export default function HomePage() {
       <Navbar />
       <main className="relative w-full overflow-hidden">
         <Hero />
-        <AboutClinic />
-        <ProceduresSection />
         <ProfessionalSection />
+        <ProceduresSection />
+        <AboutClinic />
         <DifferentialsSection />
         <FaqSection />
         <ContactSection />

@@ -17,6 +17,8 @@ export interface ClinicInfo {
   state: string;
   cep: string;
   mapsUrl: string;
+  mapsEmbedUrl: string;
+  mapsDirectionsUrl: string;
   schedule: {
     weekdays: string;
     saturday: string;
@@ -49,6 +51,10 @@ export const CLINIC_INFO: ClinicInfo = {
   cep: "83601-170",
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=R.+Sete+de+Setembro+-+Centro,+Campo+Largo+-+PR,+83601-170",
+  mapsEmbedUrl:
+    "https://www.google.com/maps?q=R.+Sete+de+Setembro+-+Centro,+Campo+Largo+-+PR,+83601-170&output=embed",
+  mapsDirectionsUrl:
+    "https://www.google.com/maps/dir/?api=1&destination=R.+Sete+de+Setembro+-+Centro,+Campo+Largo+-+PR,+83601-170",
   schedule: {
     weekdays: "Segunda a sexta-feira: 09h às 18h",
     saturday: "Sábado: 09h às 12h",

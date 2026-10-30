@@ -63,13 +63,13 @@ export function Footer() {
                 <Link href="#inicio" className="hover:text-[#C2A783] transition-colors">Início</Link>
               </li>
               <li>
-                <Link href="#clinica" className="hover:text-[#C2A783] transition-colors">A Clínica</Link>
+                <Link href="#profissional" className="hover:text-[#C2A783] transition-colors">Dra. Aïda Schmidt</Link>
               </li>
               <li>
                 <Link href="#procedimentos" className="hover:text-[#C2A783] transition-colors">Procedimentos</Link>
               </li>
               <li>
-                <Link href="#profissional" className="hover:text-[#C2A783] transition-colors">Dra. Aïda Schmidt</Link>
+                <Link href="#clinica" className="hover:text-[#C2A783] transition-colors">A Clínica</Link>
               </li>
               <li>
                 <Link href="#diferenciais" className="hover:text-[#C2A783] transition-colors">Diferenciais</Link>
