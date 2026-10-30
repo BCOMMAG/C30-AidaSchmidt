@@ -112,7 +112,7 @@ export function Hero() {
         <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-[#F7F4EF]/90 via-transparent to-[#F7F4EF]/40" />
 
         {/* Mobile: overlay suave e translúcido para manter a fotografia nítida e bem visível */}
-        <div className="block lg:hidden absolute inset-0 bg-gradient-to-b from-[#F7F4EF]/60 via-transparent via-40% to-[#F7F4EF]/85" />
+        <div className="block lg:hidden absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-45% to-[#F7F4EF]/85" />
       </div>
 
       {/* Conteúdo Principal do Hero */}
