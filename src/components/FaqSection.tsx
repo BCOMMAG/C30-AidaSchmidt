@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { CLINIC_INFO } from "@/lib/data";
 import { ChevronDown, HelpCircle, MessageSquare } from "lucide-react";
 import { WhatsAppIcon } from "@/components/SocialIcons";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -188,15 +189,17 @@ export function FaqSection() {
               Nossa equipe está à disposição no WhatsApp para esclarecer orientações e agendamentos.
             </p>
           </div>
-          <a
-            href={CLINIC_INFO.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-pill bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2 py-3 px-6 text-xs sm:text-sm font-semibold shadow-sm hover-lift shrink-0 flex items-center"
-          >
-            <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-            <span>Falar no WhatsApp</span>
-          </a>
+          <MagneticButton strength={0.25} className="shrink-0">
+            <a
+              href={CLINIC_INFO.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pill bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2 py-3 px-6 text-xs sm:text-sm font-semibold shadow-sm hover-lift shrink-0 flex items-center cursor-pointer"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+              <span>Falar no WhatsApp</span>
+            </a>
+          </MagneticButton>
         </div>
       </div>
     </section>

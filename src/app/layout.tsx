@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import { getClinicSchema } from "@/lib/schema";
 
 const cormorant = Cormorant_Garamond({
@@ -111,6 +112,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-[#F7F4EF] text-[#3B302B] selection:bg-[#C2A783]/30 selection:text-[#3B302B]">
+        <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

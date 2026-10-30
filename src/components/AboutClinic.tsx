@@ -280,6 +280,66 @@ export function AboutClinic() {
             </div>
           </div>
         </div>
+
+        {/* Linha do Tempo Editorial: A Jornada do Paciente na Clínica Schmidt */}
+        <div className="mt-20 pt-16 border-t border-[#E3DCD3]">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#A28F80] font-body font-semibold block mb-2">
+              Processo de Atendimento
+            </span>
+            <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-[#3B302B] font-normal leading-snug">
+              Como construímos o seu plano de cuidado facial
+            </h3>
+            <p className="font-body text-xs sm:text-sm text-[#766D66] mt-2">
+              Quatro etapas planejadas para proporcionar segurança, tranquilidade e resultados com naturalidade.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                step: "01",
+                title: "Escuta & Avaliação",
+                desc: "Conversa detalhada sobre seus desejos estéticos, análise minuciosa de proporções e histórico de saúde com calma.",
+              },
+              {
+                step: "02",
+                title: "Mapeamento Anatômico",
+                desc: "Planejamento dos pontos estratégicos de sustentação e contorno, definindo abordagens graduais e sem exageros.",
+              },
+              {
+                step: "03",
+                title: "Execução com Precisão",
+                desc: "Procedimento realizado com técnicas apuradas, produtos homologados e foco rigoroso no seu conforto e bem-estar.",
+              },
+              {
+                step: "04",
+                title: "Acompanhamento Atencioso",
+                desc: "Orientações pós-tratamento claras e revisão presencial para garantir a evolução perfeita e duradoura do resultado.",
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-[#F7F4EF] border border-[#E3DCD3] hover:border-[#C2A783] transition-all duration-300 hover:shadow-md group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-heading text-3xl font-light text-[#C2A783] group-hover:scale-110 transition-transform">
+                      {item.step}
+                    </span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C2A783] opacity-60" />
+                  </div>
+                  <h4 className="font-heading text-lg font-medium text-[#3B302B] mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="font-body text-xs text-[#766D66] leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Lightbox Modal em tela cheia com alta resolução */}

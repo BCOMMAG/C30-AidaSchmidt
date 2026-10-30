@@ -4,8 +4,9 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CLINIC_INFO } from "@/lib/data";
-import { Sparkles, ArrowRight, MapPin } from "lucide-react";
+import { Sparkles, ArrowRight, MapPin, ChevronDown } from "lucide-react";
 import { WhatsAppIcon } from "@/components/SocialIcons";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -113,6 +114,12 @@ export function Hero() {
 
         {/* Mobile: overlay suave e translúcido para manter a fotografia nítida e bem visível */}
         <div className="block lg:hidden absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-45% to-[#F7F4EF]/85" />
+
+        {/* Efeito Glow Facial Orgânico Sutil (Luz de viço e saúde da pele) */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-16 right-1/4 w-[380px] h-[380px] sm:w-[500px] sm:h-[500px] rounded-full bg-gradient-to-br from-[#EADDC9]/30 via-[#E4D1B9]/15 to-transparent blur-3xl pointer-events-none animate-pulse duration-10000"
+        />
       </div>
 
       {/* Conteúdo Principal do Hero */}
@@ -141,25 +148,29 @@ export function Hero() {
             {CLINIC_INFO.heroSubheadline}
           </p>
 
-          {/* Botões de Ação / Conversão */}
+          {/* Botões Magnéticos de Ação / Conversão */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
-            <a
-              href={CLINIC_INFO.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-pill bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3 sm:py-3.5 px-6 sm:px-8 text-xs sm:text-sm font-semibold tracking-normal shadow-[0_8px_20px_rgba(59,48,43,0.18)] hover-lift flex items-center justify-center cursor-pointer"
-            >
-              <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-              <span>Fale Conosco</span>
-            </a>
+            <MagneticButton strength={0.3}>
+              <a
+                href={CLINIC_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-pill bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3 sm:py-3.5 px-6 sm:px-8 text-xs sm:text-sm font-semibold tracking-normal shadow-[0_8px_20px_rgba(59,48,43,0.18)] hover-lift flex items-center justify-center cursor-pointer"
+              >
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                <span>Fale Conosco</span>
+              </a>
+            </MagneticButton>
 
-            <Link
-              href="#procedimentos"
-              className="btn-pill bg-[#FFFCF8]/95 hover:bg-[#FFFCF8] text-[#3B302B] border border-[#E3DCD3] hover:border-[#C2A783] hover:scale-[1.02] gap-2 py-3 sm:py-3.5 px-5 sm:px-6 text-xs sm:text-sm font-semibold tracking-normal shadow-xs hover-lift flex items-center justify-center cursor-pointer"
-            >
-              <span>Conheça os Procedimentos</span>
-              <ArrowRight className="w-4 h-4 text-[#A28F80]" />
-            </Link>
+            <MagneticButton strength={0.25}>
+              <Link
+                href="#procedimentos"
+                className="btn-pill bg-[#FFFCF8]/95 hover:bg-[#FFFCF8] text-[#3B302B] border border-[#E3DCD3] hover:border-[#C2A783] hover:scale-[1.02] gap-2 py-3 sm:py-3.5 px-5 sm:px-6 text-xs sm:text-sm font-semibold tracking-normal shadow-xs hover-lift flex items-center justify-center cursor-pointer"
+              >
+                <span>Conheça os Procedimentos</span>
+                <ArrowRight className="w-4 h-4 text-[#A28F80]" />
+              </Link>
+            </MagneticButton>
           </div>
         </div>
       </div>

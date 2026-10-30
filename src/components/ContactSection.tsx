@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { CLINIC_INFO } from "@/lib/data";
 import { MapPin, Clock, ArrowUpRight, Navigation } from "lucide-react";
 import { WhatsAppIcon, InstagramIcon } from "@/components/SocialIcons";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -144,15 +145,17 @@ export function ContactSection() {
 
               {/* Botão Oficial Único de WhatsApp na Seção de Contato (Sem Duplicatas) */}
               <div className="pt-2">
-                <a
-                  href={CLINIC_INFO.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-pill w-full bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3.5 sm:py-4 px-6 text-sm font-semibold tracking-normal shadow-[0_8px_20px_rgba(59,48,43,0.18)] hover-lift flex items-center justify-center cursor-pointer transition-all"
-                >
-                  <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
-                  <span>Conversar no WhatsApp: {CLINIC_INFO.phone}</span>
-                </a>
+                <MagneticButton className="w-full" strength={0.2}>
+                  <a
+                    href={CLINIC_INFO.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-pill w-full bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] hover:scale-[1.02] border border-[#3B302B] gap-2.5 py-3.5 sm:py-4 px-6 text-sm font-semibold tracking-normal shadow-[0_8px_20px_rgba(59,48,43,0.18)] hover-lift flex items-center justify-center cursor-pointer transition-all"
+                  >
+                    <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
+                    <span>Conversar no WhatsApp: {CLINIC_INFO.phone}</span>
+                  </a>
+                </MagneticButton>
               </div>
             </div>
 
@@ -188,16 +191,18 @@ export function ContactSection() {
                     <MapPin className="w-3.5 h-3.5 text-[#C2A783]" />
                     <span>Como Chegar</span>
                   </div>
-                  <a
-                    href={CLINIC_INFO.mapsDirectionsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-pill w-full sm:w-auto bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] py-2.5 px-4 text-xs font-body font-semibold gap-2 shadow-sm hover-lift transition-all cursor-pointer flex items-center justify-center"
-                  >
-                    <Navigation className="w-3.5 h-3.5 text-[#C2A783]" />
-                    <span>Traçar Rota no Google Maps</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
+                  <MagneticButton strength={0.25} className="w-full sm:w-auto">
+                    <a
+                      href={CLINIC_INFO.mapsDirectionsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-pill w-full sm:w-auto bg-[#3B302B] hover:bg-[#2B2320] text-[#FFFCF8] py-2.5 px-4 text-xs font-body font-semibold gap-2 shadow-sm hover-lift transition-all cursor-pointer flex items-center justify-center"
+                    >
+                      <Navigation className="w-3.5 h-3.5 text-[#C2A783]" />
+                      <span>Traçar Rota no Google Maps</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  </MagneticButton>
                 </div>
               </div>
             </div>

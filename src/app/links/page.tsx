@@ -165,12 +165,18 @@ export default function LinksPage() {
 
               const content = (
                 <div
-                  className={`w-full p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between gap-4 text-left hover-lift ${
+                  className={`relative overflow-hidden w-full p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between gap-4 text-left hover-lift ${
                     isHighlight
                       ? "bg-[#3B302B] text-[#FFFCF8] border-[#3B302B] shadow-[0_8px_20px_rgba(59,48,43,0.14)]"
                       : "bg-[#FFFCF8] text-[#3B302B] border-[#E3DCD3] hover:border-[#C2A783] shadow-xs"
                   }`}
                 >
+                  {isHighlight && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer pointer-events-none"
+                    />
+                  )}
                   <div className="flex items-center gap-3.5 min-w-0">
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
@@ -302,7 +308,7 @@ export default function LinksPage() {
             const isHighlight = item.highlight;
             const isInternal = item.href.startsWith("/");
 
-            const buttonClasses = `w-full flex items-center justify-between px-4 py-3 sm:py-3.5 rounded-2xl border transition-all duration-200 active:scale-[0.98] ${
+            const buttonClasses = `relative overflow-hidden w-full flex items-center justify-between px-4 py-3 sm:py-3.5 rounded-2xl border transition-all duration-200 active:scale-[0.98] ${
               isHighlight
                 ? "bg-[#3B302B] text-[#FFFCF8] border-[#3B302B] shadow-[0_6px_18px_rgba(59,48,43,0.16)]"
                 : "bg-[#FFFCF8]/95 backdrop-blur-xs border-[#E3DCD3] text-[#3B302B] shadow-2xs hover:border-[#C2A783]"
@@ -310,6 +316,12 @@ export default function LinksPage() {
 
             const content = (
               <>
+                {isHighlight && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer pointer-events-none"
+                  />
+                )}
                 <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${

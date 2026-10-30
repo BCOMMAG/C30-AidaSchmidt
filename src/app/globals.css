@@ -166,3 +166,18 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   scrollbar-width: none;
 }
 
+/* Efeito Shimmer refinado para botões e CTAs nobres */
+@keyframes shimmerPass {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  30%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmerPass 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+
