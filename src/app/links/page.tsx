@@ -235,25 +235,25 @@ export default function LinksPage() {
 
       </div>
 
-      {/* ===================== VERSÃO MOBILE (100% Fit Sem Scroll — Logo no Fundo Visível + Perfil e Botões Reajustados) ===================== */}
+      {/* ===================== VERSÃO MOBILE (100% Fit Sem Scroll — Logo no Fundo Preenchendo Todo o Espaço Grifado) ===================== */}
       <div className="lg:hidden relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full px-4 pt-3 pb-2 sm:pt-4 sm:pb-3 overflow-hidden bg-gradient-to-b from-[#FFFCF8] via-[#F7F4EF] to-[#EFE9E0]">
         
-        {/* Marca d'água da Logo no Fundo Superior - Ampla e Bem Visível no Topo */}
-        <div className="absolute top-1 sm:top-2 inset-x-0 flex items-center justify-center pointer-events-none z-0">
-          <div className="relative w-72 sm:w-80 h-28 sm:h-32 opacity-[0.25] select-none">
+        {/* Marca d'água da Logo no Fundo Preenchendo Todo o Espaço Superior Grifado */}
+        <div className="absolute top-0 left-0 right-0 h-[40vh] max-h-[310px] flex items-center justify-center pointer-events-none z-0 overflow-hidden px-2">
+          <div className="relative w-full h-full opacity-[0.24] select-none">
             <Image
               src="/logo_sem_fundo_usarnomodoclaro.png"
               alt=""
               fill
               priority
-              className="object-contain object-top"
-              sizes="320px"
+              className="object-contain object-center scale-110 sm:scale-105"
+              sizes="(max-width: 768px) 100vw, 450px"
             />
           </div>
         </div>
 
-        {/* Topo Mobile: Perfil Reajustado e Descido, deixando a logo no topo limpa e destacada */}
-        <div className="relative z-10 w-full flex flex-col items-center justify-center text-center pt-14 sm:pt-16 shrink-0">
+        {/* Topo Mobile: Perfil Reajustado e Descido */}
+        <div className="relative z-10 w-full flex flex-col items-center justify-center text-center pt-10 sm:pt-12 shrink-0">
           {/* Foto de Perfil da Dra. Aïda — Centralizada, Bonita e com Presença */}
           <Link
             href="/"
